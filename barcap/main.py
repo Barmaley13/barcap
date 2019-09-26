@@ -13,7 +13,7 @@ def main():
 
     # Camera selection routine
     try:
-        from .device_list.test import select_camera, camera_list
+        from .device_list import select_camera, camera_list
 
         # Get camera list
         dev_list = camera_list()

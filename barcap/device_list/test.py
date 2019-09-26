@@ -20,7 +20,7 @@ def select_camera(device_len):
     return index
 
 
-def camera_list():
+def camera_list(print_list=True):
     # Fetch device list
     dev_list = []
     try:
@@ -29,12 +29,13 @@ def camera_list():
         pass
 
     # Print device list
-    if len(dev_list):
-        for index, name in enumerate(dev_list):
-            print(f'{index}: {name}')
+    if print_list:
+        if len(dev_list):
+            for index, name in enumerate(dev_list):
+                print(f'{index}: {name}')
 
-    else:
-        print('No device is connected')
+        else:
+            print('No device is connected')
 
     return dev_list
 
