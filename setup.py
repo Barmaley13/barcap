@@ -26,12 +26,6 @@ def find_version(*file_paths):
 
 
 if __name__ == '__main__':
-    # Add device setup only on Windows
-    dep_links = []
-    if os.name == 'nt':
-        dev_path = os.path.join(base_path, 'barcap', 'device_list')
-        dep_links.append(f'file:/{dev_path}')
-
     # Add our standard setup
     # # FIXME: Markdown is broken for some reason
     # with open('README.md', encoding='utf-8') as f:
@@ -42,6 +36,13 @@ if __name__ == '__main__':
 
     with open('requirements.txt') as f:
         requirements = f.read().splitlines()
+
+    # Add device setup only on Windows
+    dep_links = []
+    if os.name == 'nt':
+        dev_path = os.path.join(base_path, 'barcap', 'device_list')
+        dep_links.append(f'file:/{dev_path}')
+        requirements.append('WindowsDevices')
 
     setup(
         name='barcap',
