@@ -1,3 +1,5 @@
+include LICENSE
+include requirements.txt
 include images/*.*
 include barcap/device_list/screenshot/*.*
 include barcap/device_list/.gitignore
