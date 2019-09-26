@@ -27,15 +27,8 @@ def find_version(*file_paths):
 
 if __name__ == '__main__':
     # Add our standard setup
-    # # FIXME: Markdown is broken for some reason
-    # with open('README.md', encoding='utf-8') as f:
-    #     readme = f.read()
-
-    with open('LICENSE') as f:
-        license = f.read()
-
-    with open('requirements.txt') as f:
-        requirements = f.read().splitlines()
+    readme = read('README.md')
+    requirements = read('requirements.txt').splitlines()
 
     # Add device setup only on Windows
     dep_links = []
@@ -48,12 +41,13 @@ if __name__ == '__main__':
         name='barcap',
         version=find_version('barcap', '__init__.py'),
         description='Extract any barcode using your web camera',
-        # long_description=readme,
-        # long_description_content_type='text/markdown',
+        long_description=readme,
+        long_description_content_type='text/markdown',
         author='Kirill V. Belyayev',
         author_email='kbelyayev@gmail.com',
+        python_requires='>=3.6.0',
         url='https://github.com/Barmaley13/BarcodeCapture',
-        license=license,
+        license='MIT',
         packages=find_packages(),
         include_package_data=True,
         entry_points={'console_scripts': ['barcode_capture = barcap.main:main']},
