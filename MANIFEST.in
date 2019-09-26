@@ -1,0 +1,6 @@
+include images/*.*
+include barcap/device_list/screenshot/*.*
+include barcap/device_list/.gitignore
+include barcap/device_list/device.*
+include barcap/device_list/LICENSE
+include barcap/device_list/README.md
