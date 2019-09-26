@@ -30,10 +30,9 @@ def main():
 
     # Run capture loop
     while capture.is_alive():
-        output = capture.output
-        if len(output):
+        if capture.new:
             # Debugging
-            print(f'output: {output}')
+            print(f'output: {capture.output}')
 
             # Debugging
             time_stamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(capture.last_epoch))

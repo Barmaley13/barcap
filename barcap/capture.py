@@ -45,6 +45,7 @@ class BarcodeCapture(Process):
         self.debug = debug
 
         self._output = Array('b', [0]*DEFAULT_ARRAY_LEN)
+        self._new = Value('b', False)
         self._stop = Value('b', False)
         self._last_epoch = Value('f')
 
@@ -105,6 +106,8 @@ class BarcodeCapture(Process):
                             self._output[len(output):] = [0]*(DEFAULT_ARRAY_LEN-len(output))
                             # Record the time
                             self._last_epoch.value = time.time()
+                            # Set new capture flag
+                            self._new.value = True
                         else:
                             raise OverflowError('Shared array is too small to represent this barcode!')
 
@@ -146,6 +149,7 @@ class BarcodeCapture(Process):
 
     @property
     def output(self) -> str:
+        self._new.value = False
         _output = bytearray(self._output[:])
         _output = _output.decode('utf-8')
         _output = _output.replace('\x00', '')
@@ -154,6 +158,10 @@ class BarcodeCapture(Process):
     @property
     def last_epoch(self) -> float:
         return self._last_epoch.value
+
+    @property
+    def new(self) -> bool:
+        return self._new.value
 
     def stop(self):
         self._stop.value = True
