@@ -8,9 +8,7 @@ recognize other popular formats supported by those libraries.
 
 Under the hood, this code takes each frame from the camera like so
 
-![Web Camera Frame][frame]
-
-[frame]: images/barcode1.jpg
+![Web Camera Frame](https://raw.githubusercontent.com/Barmaley13/BarcodeCapture/master/images/barcode1.jpg)
 
 And detects barcode if it present.
 And finally provides output as a string like so
