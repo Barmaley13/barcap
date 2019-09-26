@@ -25,15 +25,15 @@ if __name__ == '__main__':
 
     # Start capture
     # print(f'camera_index: {camera_index}')
-    capture = BarcodeCapture(camera=camera_index)
+    capture = BarcodeCapture(camera=camera_index, debug=False)
     capture.start()
 
     # Run capture loop
     while capture.is_alive():
         output = capture.output
         if len(output):
-            # # Debugging
-            # print(f'output: {output}')
+            # Debugging
+            print(f'output: {output}')
 
             # Debugging
             time_stamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(capture.last_epoch))

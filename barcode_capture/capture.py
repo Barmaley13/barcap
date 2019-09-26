@@ -23,7 +23,15 @@ DEFAULT_ARRAY_LEN = 255
 
 class BarcodeCapture(Process):
     """ Capture bar code Process based on Process class """
-    def __init__(self, camera: int = 0, name: str = None, width: int = None, height: int = None, invert: bool = False):
+    def __init__(
+            self,
+            camera: int = 0,
+            name: str = None,
+            width: int = None,
+            height: int = None,
+            invert: bool = False,
+            debug: bool = True
+    ):
         super(BarcodeCapture, self).__init__()
 
         if name is None:
@@ -34,6 +42,7 @@ class BarcodeCapture(Process):
         self.width = width
         self.height = height
         self.invert = invert
+        self.debug = debug
 
         self._output = Array('b', [0]*DEFAULT_ARRAY_LEN)
         self._stop = Value('b', False)
@@ -52,8 +61,9 @@ class BarcodeCapture(Process):
         if self.height is not None:
             cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
 
-        print(f'current width: {cap.get(cv2.CAP_PROP_FRAME_WIDTH)}')
-        print(f'current height: {cap.get(cv2.CAP_PROP_FRAME_HEIGHT)}')
+        if self.debug:
+            print(f'current width: {cap.get(cv2.CAP_PROP_FRAME_WIDTH)}')
+            print(f'current height: {cap.get(cv2.CAP_PROP_FRAME_HEIGHT)}')
 
         while cap.isOpened():
             # Capture frame-by-frame
@@ -84,8 +94,9 @@ class BarcodeCapture(Process):
                         output = result.data
 
                         # Debugging
-                        _output = output.decode('utf-8')
-                        print(f'output: {_output}')
+                        if self.debug:
+                            _output = output.decode('utf-8')
+                            print(f'output: {_output}')
 
                         if len(output) <= DEFAULT_ARRAY_LEN:
                             # Copy barcode into array
@@ -103,7 +114,9 @@ class BarcodeCapture(Process):
                 # Parse command
                 if command > 0:
                     command = chr(command)
-                    print(f'command: {command}')
+
+                    if self.debug:
+                        print(f'command: {command}')
 
                     # Save frame for the code recognition (Manual capture)
                     if command in ('s', 'S'):
@@ -115,7 +128,7 @@ class BarcodeCapture(Process):
 
                 # Capture Window close using 'X' button
                 try:
-                    if cv2.getWindowProperty(self.name, 0) < 0:
+                    if cv2.getWindowProperty(self.name, cv2.WND_PROP_VISIBLE) < 1:
                         break
                 except cv2.error:
                     break
