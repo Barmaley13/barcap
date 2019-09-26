@@ -17,8 +17,9 @@ if __name__ == '__main__':
         dep_links.append(f'file:/{dev_path}')
 
     # Add our standard setup
-    with open('README.md', encoding='utf-8') as f:
-        readme = f.read()
+    # # FIXME: Markdown is broken for some reason
+    # with open('README.md', encoding='utf-8') as f:
+    #     readme = f.read()
 
     with open('LICENSE') as f:
         license = f.read()
@@ -30,8 +31,8 @@ if __name__ == '__main__':
         name='barcap',
         version=__version__,
         description='Extract any barcode using your web camera',
-        long_description=readme,
-        long_description_content_type='text/markdown',
+        # long_description=readme,
+        # long_description_content_type='text/markdown',
         author='Kirill V. Belyayev',
         author_email='kbelyayev@gmail.com',
         url='https://github.com/Barmaley13/BarcodeCapture',
