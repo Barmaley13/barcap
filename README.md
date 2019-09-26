@@ -3,7 +3,7 @@
 ## Introduction
 This code was made to extract any barcode using your web camera.
 As of now it utilizes `pyzbar` and `pylibdmtx` libraries. Which have their own set of
-recognizable barcodes. Mainly, we were targetting QR codes and data matrix codes. But it will
+recognizable barcodes. Mainly, we were targeting QR codes and data matrix codes. But it will
 recognize other popular formats supported by those libraries.
 
 Under the hood, this code takes each frame from the camera like so
@@ -60,7 +60,7 @@ This is the simplest way to get you started. Also this is the best way to make s
 Simply run in a shell:
 
 ```bash
-python -m barcode_capture
+python -m barcap
 ```
 
 Window with your default camera is going to pop up and capture algorithm will be running in a while loop.
@@ -69,7 +69,7 @@ If everything is successful you will see output periodically printed out in the 
 ### Manual Capture
 Once again start while capture loop by running:
 ```
-$ python -m barcode_capture
+$ python -m barcap
 ```
 
 First of all, make sure your capture window is selected.
@@ -96,7 +96,7 @@ Here is how you can take advantage of those in your own script.
 
 To **create** a capture instance do following:
 ```python
-from barcode_capture import BarcodeCapture     
+from barcap import BarcodeCapture     
 capture = BarcodeCapture(camera=0)
 ```
 
