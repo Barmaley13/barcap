@@ -21,7 +21,7 @@ module_device = Extension(
 
 setup(
     name='WindowsDevices',
-    version='1.0',
+    version='1.0.1',
     description='Get device list with DirectShow',
     # long_description=readme,
     # long_description_content_type='text/markdown',
