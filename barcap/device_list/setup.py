@@ -9,9 +9,6 @@ from distutils.core import setup, Extension
 # with open('README.md', encoding='utf-8') as f:
 #     readme = f.read()
 
-with open('LICENSE') as f:
-    license = f.read()
-
 dev_path = os.path.dirname(os.path.abspath(__file__))
 module_device = Extension(
     'device',
@@ -25,6 +22,6 @@ setup(
     description='Get device list with DirectShow',
     # long_description=readme,
     # long_description_content_type='text/markdown',
-    license=license,
+    license='MIT',
     ext_modules=[module_device]
 )

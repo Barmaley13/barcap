@@ -35,6 +35,9 @@ if __name__ == '__main__':
     if os.name == 'nt':
         dev_path = os.path.join(base_path, 'barcap', 'device_list')
         dep_links.append(f'file:/{dev_path}')
+        # Forcing wheel installation
+        dep_links.append('https://files.pythonhosted.org/packages/3d/14/97bf8e36fb58965415e3c7d8f95cfd6375cb0b5464ae9dbc0a48f7f9ab19/pyzbar-0.1.8-py2.py3-none-win_amd64.whl')
+        dep_links.append('https://files.pythonhosted.org/packages/91/8a/4694f3214da07dc488c422c355415a860024126b2714d8f4bf1f73419587/pylibdmtx-0.1.9-py2.py3-none-win_amd64.whl')
         requirements.append('WindowsDevices')
 
     setup(
@@ -52,5 +55,6 @@ if __name__ == '__main__':
         include_package_data=True,
         entry_points={'console_scripts': ['barcode_capture = barcap.main:main']},
         dependency_links=dep_links,
-        install_requires=requirements
+        install_requires=requirements,
+        zip_safe=False
     )

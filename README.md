@@ -32,11 +32,14 @@ Otherwise, you will need:
 * pylibdmtx
 * Web Camera
 
-You can install requirements using
+## Easy installation
+Use pip to install this library, fast and easy!!!
 ```bash
-pip install -r requirements.txt
+pip install barcap
 ```
 
+## Manual installation
+### Install libraries
 On Linux, you have to install some extra packages:
 ```bash
 sudo apt-get install libzbar0
@@ -49,9 +52,21 @@ brew install zbar
 brew install libdmtx
 ```
 
+On Windows, everything should happen automatically. 
+If you have any dll problems, please install 
+[Visual C++ Redistributable Packages for Visual Studio 2013](https://www.microsoft.com/en-US/download/details.aspx?id=40784)
+and see if that resolves those issues.
+
+### Install python packages
+You can install requirements using
+```bash
+pip install -r requirements.txt
+```
+
 ## Further instructions
 https://pypi.org/project/pyzbar/
 https://pypi.org/project/pylibdmtx/
+
 
 ## Most Basic Barcode Capture
 This is the simplest way to get you started. Also this is the best way to make sure that your setup works properly.
@@ -131,6 +146,13 @@ epoch = capture.last_epoch
 time_stamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(epoch))
 print(f'last capture: {time_stamp}')
 ```
+
+You can also check if **new** output is available
+```python
+if capture.new:
+    print(f'output: {capture.output}')
+```
+Every time you read output it resets the `new` flag.
 
 ## Additional Info and Questions
 
