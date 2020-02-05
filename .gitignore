@@ -102,3 +102,6 @@ ENV/
 
 # PyCharm IDE Files
 .idea/
+
+# Ignore debug images
+barcap/*[.jpg, .tif]
