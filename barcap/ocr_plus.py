@@ -4,6 +4,8 @@ Capture OCR Algorithm (with pre-processing)
 This is "improved" OCR with some pre-processing applied
 """
 
+import logging
+
 import cv2
 import pytesseract
 
@@ -25,9 +27,6 @@ class OCRPlusCapture(OCRCapture):
 
         # Save name for the frame capture
         self._save_name = 'ocr_plus.jpg'
-
-        # Setup pytesseract
-        pytesseract.pytesseract.tesseract_cmd = self.tess_cmd
 
     def process_frame(self, frame):
         """ This method does all the frame processing work """
@@ -66,6 +65,9 @@ class OCRPlusCapture(OCRCapture):
 if __name__ == '__main__':
     # # Manual command (for your reference)
     # tesseract ocr.jpg stdout -l eng --oem 3 --psm 11 -c tessedit_write_images=true
+
+    # Setup logging
+    logging.basicConfig(level=logging.DEBUG, format=f'%(levelname)s: %(message)s')
 
     # Default camera index
     camera_index = 0

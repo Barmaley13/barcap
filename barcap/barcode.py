@@ -7,6 +7,8 @@ Having higher resolution camera with automatic focus is a key.
 Use a stand for your camera! Shaky hands will introduce error readings!!!
 """
 
+import logging
+
 import cv2
 from pyzbar import pyzbar
 from pylibdmtx import pylibdmtx
@@ -53,7 +55,7 @@ class BarcodeCapture(CaptureProcess):
         results += pylibdmtx.decode((frame.tobytes(), width, height), timeout=100)
 
         if len(results):
-            # print(f'results: {results}')
+            # logging.debug(f'results: {results}')
             for result in results:
                 # Save result of the barcode capture
                 self.save_capture(result.data)
@@ -62,6 +64,9 @@ class BarcodeCapture(CaptureProcess):
 
 
 if __name__ == '__main__':
+    # Setup logging
+    logging.basicConfig(level=logging.DEBUG, format=f'%(levelname)s: %(message)s')
+
     # Default camera index
     camera_index = 0
 

@@ -7,6 +7,8 @@ Having higher resolution camera with automatic focus is a key.
 Use a stand for your camera! Shaky hands will introduce error readings!!!
 """
 
+import logging
+
 import cv2
 import pytesseract
 
@@ -14,7 +16,7 @@ from capture import CaptureProcess
 
 
 # Constants
-TESS_CMD = 'tesseract.exe'
+TESS_CMD = 'tesseract'
 # TESS_CMD = r'"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe"'
 TESS_DATA = r'"C:\Program Files (x86)\Tesseract-OCR\tessdata"'
 TESS_CONF = f'--tessdata-dir {TESS_DATA} --oem 1 --psm 11'
@@ -60,6 +62,9 @@ class OCRCapture(CaptureProcess):
 
 
 if __name__ == '__main__':
+    # Setup logging
+    logging.basicConfig(level=logging.DEBUG, format=f'%(levelname)s: %(message)s')
+
     # Default camera index
     camera_index = 0
 

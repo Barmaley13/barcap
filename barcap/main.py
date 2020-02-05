@@ -25,7 +25,7 @@ def main():
 
     # Start capture
     # print(f'camera_index: {camera_index}')
-    capture = BarcodeCapture(camera=camera_index, debug=False)
+    capture = BarcodeCapture(camera=camera_index)
     capture.start()
 
     # Run capture loop

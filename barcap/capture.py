@@ -19,6 +19,7 @@ you might have multiple cameras connected to your computer.
 
 import os
 import time
+import logging
 
 from typing import Union
 from abc import ABC, abstractmethod
@@ -40,7 +41,7 @@ class CaptureProcess(Process, ABC):
             name: str = None,
             width: int = None,
             height: int = None,
-            debug: bool = True
+            **kwargs
     ):
         # Init Process
         super(CaptureProcess, self).__init__()
@@ -50,7 +51,6 @@ class CaptureProcess(Process, ABC):
         self.name = name
         self.width = width
         self.height = height
-        self.debug = debug
 
         # Init private members
         self._save_name = 'capture.jpg'
@@ -76,9 +76,8 @@ class CaptureProcess(Process, ABC):
         if self.height is not None:
             cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
 
-        if self.debug:
-            print(f'current width: {cap.get(cv2.CAP_PROP_FRAME_WIDTH)}')
-            print(f'current height: {cap.get(cv2.CAP_PROP_FRAME_HEIGHT)}')
+        logging.debug(f'current width: {cap.get(cv2.CAP_PROP_FRAME_WIDTH)}')
+        logging.debug(f'current height: {cap.get(cv2.CAP_PROP_FRAME_HEIGHT)}')
 
         while cap.isOpened():
             # Capture frame-by-frame
@@ -101,8 +100,7 @@ class CaptureProcess(Process, ABC):
                 if command > 0:
                     command = chr(command)
 
-                    if self.debug:
-                        print(f'command: {command}')
+                    logging.debug(f'command: {command}')
 
                     # Save frame for the code recognition (Manual capture)
                     if command in ('s', 'S'):
@@ -150,8 +148,7 @@ class CaptureProcess(Process, ABC):
             raise TypeError(f"Unsupported type '{type(data)}' for save_capture method!")
 
         # Debugging
-        if self.debug:
-            print(f'output: {data_str}')
+        logging.debug(f'output: {data_str}')
 
         # Save data to output buffer
         data_len = len(data_bytes)
