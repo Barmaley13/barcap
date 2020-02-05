@@ -42,15 +42,19 @@ class CaptureProcess(Process, ABC):
             invert: bool = False,
             debug: bool = True
     ):
+        # Init Process
         super(CaptureProcess, self).__init__()
 
+        # Init public members
         self.camera = camera
         self.name = name
         self.width = width
         self.height = height
         self.invert = invert
         self.debug = debug
+        self._save_name = 'capture.jpg'
 
+        # Set shared memory members
         self._output = Array('b', [0] * DEFAULT_ARRAY_LEN)
         self._new = Value('b', False)
         self._stop = Value('b', False)
@@ -94,7 +98,7 @@ class CaptureProcess(Process, ABC):
 
                     # Save frame for the code recognition (Manual capture)
                     if command in ('s', 'S'):
-                        cv2.imwrite('barcode.jpg', frame)
+                        cv2.imwrite(self._save_name, frame)
 
                     # Close Video capture
                     elif command in ('q', 'Q', '\x1b'):

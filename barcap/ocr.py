@@ -35,6 +35,9 @@ class OCRCapture(CaptureProcess):
 
         super(OCRCapture, self).__init__(**kwargs)
 
+        # Save name for the frame capture
+        self._save_name = 'ocr.jpg'
+
     def process_frame(self, frame):
         """ This method does all the frame processing work """
         # Convert to RGB format
