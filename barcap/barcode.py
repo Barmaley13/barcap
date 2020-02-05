@@ -13,7 +13,10 @@ import cv2
 from pyzbar import pyzbar
 from pylibdmtx import pylibdmtx
 
-from capture import CaptureProcess
+if __name__ == '__main__':
+    import path_finder
+
+from barcap.capture import CaptureProcess
 
 
 # Constants

@@ -12,7 +12,10 @@ import logging
 import cv2
 import pytesseract
 
-from capture import CaptureProcess
+if __name__ == '__main__':
+    import path_finder
+
+from barcap.capture import CaptureProcess
 
 
 # Constants

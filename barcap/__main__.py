@@ -3,7 +3,7 @@ Adding ability to run package as an executable
 """
 
 
-from main import main
+from barcap.main import main
 
 
 if __name__ == '__main__':

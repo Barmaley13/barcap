@@ -9,7 +9,10 @@ import logging
 import cv2
 import pytesseract
 
-from ocr import OCRCapture
+if __name__ == '__main__':
+    import path_finder
+
+from barcap.ocr import OCRCapture
 
 
 # Constants
