@@ -1,3 +1,7 @@
+"""
+This module demonstrates how to use camera selection routines
+"""
+
 import cv2
 
 import device

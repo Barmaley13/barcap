@@ -64,8 +64,8 @@ pip install -r requirements.txt
 ```
 
 ## Further instructions
-https://pypi.org/project/pyzbar/
-https://pypi.org/project/pylibdmtx/
+* https://pypi.org/project/pyzbar/
+* https://pypi.org/project/pylibdmtx/
 
 
 ## Most Basic Barcode Capture
@@ -86,7 +86,7 @@ $ python -m barcap
 ```
 
 First of all, make sure your capture window is selected.
-Once, you have a good image in the window with keypad occupying most of the screen press `'s'` key to save this frame.
+Once, you have a good image in the window with barcode occupying most of the screen press `'s'` key to save this frame.
 Open `barcode.jpg` and confirm that the frame has been written. Kill the loop by pressing `'q'` or `Esc`.
 
 #### If it does not work...
@@ -102,14 +102,23 @@ At this point you probably understand how my routine works so you can try modify
 Otherwise, **Congratulations!!! You got it working!!!**
  
 ## Importing Barcode Capture into your own python script
-If you look closely, you will see that capture loop is inside this `BarcodeCapture` class based on `Process` class 
+If you look closely, you will see that capture loop is inside `CaptureProcess` class based on `Process` class 
 from `multiprocessing` module.
+
+The idea is to run this process and capture frames from a web camera.
+Next, those frames will be processed to get desired output.
+
+You could use this class to build your own capturing algorithm.
+For examples, look closely at `barcode.py`, `ocr.py` and `ocr_plus.py`.
+
+And finally, the user of the capture process would start a process and
+get results via shared memory.
 
 Here is how you can take advantage of those in your own script.
 
 To **create** a capture instance do following:
 ```python
-from barcap import BarcodeCapture     
+from barcap.barcode import BarcodeCapture     
 capture = BarcodeCapture(camera=0)
 ```
 
@@ -153,6 +162,11 @@ if capture.new:
     print(f'output: {capture.output}')
 ```
 Every time you read output it resets the `new` flag.
+
+Look closely at `main.py` to get a complete example.
+
+Finally, `device_list.py` facilitates in selecting right camera. In case
+you might have multiple cameras connected to your computer.
 
 ## Additional Info and Questions
 

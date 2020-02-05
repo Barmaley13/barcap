@@ -1,5 +1,5 @@
 """
-Adding ability to run package as executable
+Adding ability to run package as an executable
 """
 
 

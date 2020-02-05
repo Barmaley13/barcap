@@ -4,7 +4,7 @@ Run capture as a separate process
 
 import time
 
-from .capture import BarcodeCapture
+from barcode import BarcodeCapture
 
 
 def main():

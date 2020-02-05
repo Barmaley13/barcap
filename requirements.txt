@@ -2,3 +2,4 @@ opencv-python==4.1.1.26
 opencv-contrib-python==4.1.1.26
 pyzbar==0.1.8
 pylibdmtx==0.1.9
+pytesseract==0.3.2
