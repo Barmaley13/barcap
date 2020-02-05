@@ -70,7 +70,7 @@ def main():
         print(f'Default width: {width}, height: {height}')
 
         while True:
-
+            # Read and show image
             ret, frame = cap.read()
             cv2.imshow('frame', frame)
 

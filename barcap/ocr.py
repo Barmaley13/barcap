@@ -17,13 +17,9 @@ from capture import CaptureProcess
 TESS_CMD = 'tesseract.exe'
 # TESS_CMD = r'"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe"'
 TESS_DATA = r'"C:\Program Files (x86)\Tesseract-OCR\tessdata"'
-TESS_CONFIG = f'--tessdata-dir {TESS_DATA} --oem 1 --psm 11'
+TESS_CONF = f'--tessdata-dir {TESS_DATA} --oem 1 --psm 11'
 
 DEFAULT_WINDOW_NAME = 'OCR Capture'
-
-
-# Pytesseract setup
-pytesseract.pytesseract.tesseract_cmd = TESS_CMD
 
 
 class OCRCapture(CaptureProcess):
@@ -38,20 +34,25 @@ class OCRCapture(CaptureProcess):
         # Save name for the frame capture
         self._save_name = 'ocr.jpg'
 
+        # Set OCR specific kwargs
+        self.tess_cmd = TESS_CMD
+        if 'tess_cmd' in kwargs:
+            self.tess_cmd = kwargs['tess_cmd']
+
+        self.tess_conf = TESS_CONF
+        if 'tess_conf' in kwargs:
+            self.tess_conf = kwargs['tess_conf']
+
+        # Setup pytesseract
+        pytesseract.pytesseract.tesseract_cmd = self.tess_cmd
+
     def process_frame(self, frame):
         """ This method does all the frame processing work """
         # Convert to RGB format
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        # Invert colors (if needed)
-        if self.invert:
-            frame = cv2.bitwise_not(frame)
-
-        # Display the resulting frame
-        cv2.imshow(self.name, frame)
-
         # Analyze the frame
-        results = pytesseract.image_to_string(frame, lang='eng', config=TESS_CONFIG)
+        results = pytesseract.image_to_string(frame, lang='eng', config=self.tess_conf)
 
         # Save results of the OCR
         if len(results) > 0:

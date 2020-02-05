@@ -25,6 +25,7 @@ from abc import ABC, abstractmethod
 from multiprocessing import Process, Value, Array
 
 import cv2
+import numpy
 
 
 # Constants
@@ -39,7 +40,6 @@ class CaptureProcess(Process, ABC):
             name: str = None,
             width: int = None,
             height: int = None,
-            invert: bool = False,
             debug: bool = True
     ):
         # Init Process
@@ -50,8 +50,9 @@ class CaptureProcess(Process, ABC):
         self.name = name
         self.width = width
         self.height = height
-        self.invert = invert
         self.debug = debug
+
+        # Init private members
         self._save_name = 'capture.jpg'
 
         # Set shared memory members
@@ -84,7 +85,14 @@ class CaptureProcess(Process, ABC):
             ret, frame = cap.read()
 
             if ret is True:
-                self.process_frame(frame)
+                _frame = self.process_frame(frame)
+
+                # Update frame for display (if needed)
+                if _frame is not None:
+                    frame = _frame
+
+                # Display the resulting frame
+                cv2.imshow(self.name, frame)
 
                 # Capture key press
                 command = cv2.waitKey(delay=20)
@@ -123,7 +131,7 @@ class CaptureProcess(Process, ABC):
         cv2.destroyAllWindows()
 
     @abstractmethod
-    def process_frame(self, frame):
+    def process_frame(self, frame) -> Union[None, numpy.ndarray]:
         """ This method does all the frame processing work """
         pass
 

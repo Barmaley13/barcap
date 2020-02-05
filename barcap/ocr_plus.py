@@ -7,42 +7,32 @@ This is "improved" OCR with some pre-processing applied
 import cv2
 import pytesseract
 
-from capture import CaptureProcess
+from ocr import OCRCapture
 
 
 # Constants
-TESS_CMD = 'tesseract.exe'
-# TESS_CMD = r'"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe"'
-TESS_DATA = r'"C:\Program Files (x86)\Tesseract-OCR\tessdata"'
-TESS_CONFIG = f'--tessdata-dir {TESS_DATA} --oem 1 --psm 11'
-
 DEFAULT_WINDOW_NAME = 'OCR Plus Capture'
 
 
-# Pytesseract setup
-pytesseract.pytesseract.tesseract_cmd = TESS_CMD
-
-
-class OCRCapture(CaptureProcess):
-    """ OCR Capture Process based on Process class """
+class OCRPlusCapture(OCRCapture):
+    """ OCRPlusCapture based on OCRCapture class """
     def __init__(self, **kwargs):
         if 'name' not in kwargs or kwargs['name'] is None:
             # Set default window name
             kwargs['name'] = DEFAULT_WINDOW_NAME
 
-        super(OCRCapture, self).__init__(**kwargs)
+        super(OCRPlusCapture, self).__init__(**kwargs)
 
         # Save name for the frame capture
         self._save_name = 'ocr_plus.jpg'
+
+        # Setup pytesseract
+        pytesseract.pytesseract.tesseract_cmd = self.tess_cmd
 
     def process_frame(self, frame):
         """ This method does all the frame processing work """
         # Convert to gray
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-        # Invert colors (if needed)
-        if self.invert:
-            frame = cv2.bitwise_not(frame)
 
         # # Adaptive Gaussian Thresholding
         # frame = cv2.adaptiveThreshold(
@@ -63,15 +53,14 @@ class OCRCapture(CaptureProcess):
         # NiBlack Thresholding
         # frame = cv2.ximgproc.niBlackThreshold(frame, 255, cv2.THRESH_BINARY, 55, 0.5)
 
-        # Display the resulting frame
-        cv2.imshow(self.name, frame)
-
         # Analyze the frame
-        results = pytesseract.image_to_string(frame, lang='eng', config=TESS_CONFIG)
+        results = pytesseract.image_to_string(frame, lang='eng', config=self.tess_conf)
 
         # Save results of the OCR
         if len(results) > 0:
             self.save_capture(results)
+
+        return frame
 
 
 if __name__ == '__main__':
@@ -79,11 +68,11 @@ if __name__ == '__main__':
     # tesseract ocr.jpg stdout -l eng --oem 3 --psm 11 -c tessedit_write_images=true
 
     # Default camera index
-    camera_index = 1
+    camera_index = 0
 
     # Start capture
-    capture = OCRCapture(camera=camera_index)
-    # capture = OCRCapture(camera=camera_index, width=1600, height=1200)
+    capture = OCRPlusCapture(camera=camera_index)
+    # capture = OCRPlusCapture(camera=camera_index, width=1600, height=1200)
 
     # Note: Running loop directly here. Use start method to run as a process
     capture.run()

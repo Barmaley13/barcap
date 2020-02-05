@@ -30,17 +30,19 @@ class BarcodeCapture(CaptureProcess):
         # Save name for the frame capture
         self._save_name = 'barcode.jpg'
 
+        # Set barcode specific kwargs
+        self.invert = False
+        if 'invert' in kwargs:
+            self.invert = kwargs['invert']
+
     def process_frame(self, frame):
         """ This method does all the frame processing work """
         # Convert to gray
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         # Invert colors (if needed)
-        if self.invert:
+        if self.invert is True:
             frame = cv2.bitwise_not(frame)
-
-        # Display the resulting frame
-        cv2.imshow(self.name, frame)
 
         # Figure out dimensions of the frame
         height, width = frame.shape[:2]
@@ -55,6 +57,8 @@ class BarcodeCapture(CaptureProcess):
             for result in results:
                 # Save result of the barcode capture
                 self.save_capture(result.data)
+
+        return frame
 
 
 if __name__ == '__main__':
