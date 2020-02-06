@@ -50,7 +50,7 @@ setup(
     author='Kirill V. Belyayev',
     author_email='kbelyayev@gmail.com',
     python_requires='>=3.6.0',
-    url='https://github.com/Barmaley13/BarcodeCapture',
+    url='https://github.com/Barmaley13/barcap',
     license='MIT',
     packages=find_packages(),
     include_package_data=True,

@@ -74,9 +74,22 @@ def main():
             ret, frame = cap.read()
             cv2.imshow('frame', frame)
 
-            # key: 'ESC'
-            key = cv2.waitKey(20)
-            if key == 27:
+            # Capture key press
+            command = cv2.waitKey(20)
+
+            # Parse command
+            if command > 0:
+                command = chr(command)
+
+                # Close Video capture on q, Q or ESC
+                if command in ('q', 'Q', '\x1b'):
+                    break
+
+            # Capture Window close using 'X' button
+            try:
+                if cv2.getWindowProperty('frame', cv2.WND_PROP_VISIBLE) < 1:
+                    break
+            except cv2.error:
                 break
 
         cap.release()
