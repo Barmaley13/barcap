@@ -22,8 +22,8 @@ DEFAULT_WINDOW_NAME = 'OCR Plus Capture'
 class OCRPlusCapture(OCRCapture):
     """ OCRPlusCapture based on OCRCapture class """
     def __init__(self, **kwargs):
+        # Set default window name (if needed)
         if 'name' not in kwargs or kwargs['name'] is None:
-            # Set default window name
             kwargs['name'] = DEFAULT_WINDOW_NAME
 
         super(OCRPlusCapture, self).__init__(**kwargs)

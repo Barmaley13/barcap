@@ -26,8 +26,8 @@ DEFAULT_WINDOW_NAME = 'Barcode Capture'
 class BarcodeCapture(CaptureProcess):
     """ Barcode Capture Process based on CaptureProcess class """
     def __init__(self, **kwargs):
+        # Set default window name (if needed)
         if 'name' not in kwargs or kwargs['name'] is None:
-            # Set default window name
             kwargs['name'] = DEFAULT_WINDOW_NAME
 
         super(BarcodeCapture, self).__init__(**kwargs)

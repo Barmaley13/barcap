@@ -41,6 +41,7 @@ class CaptureProcess(Process, ABC):
             name: str = None,
             width: int = None,
             height: int = None,
+            display: bool = True,
             **kwargs
     ):
         # Init Process
@@ -51,6 +52,7 @@ class CaptureProcess(Process, ABC):
         self.name = name
         self.width = width
         self.height = height
+        self.display = display
 
         # Init private members
         self._save_name = 'capture.jpg'
@@ -90,8 +92,9 @@ class CaptureProcess(Process, ABC):
                 if _frame is not None:
                     frame = _frame
 
-                # Display the resulting frame
-                cv2.imshow(self.name, frame)
+                # Display the resulting frame (if enabled)
+                if self.display:
+                    cv2.imshow(self.name, frame)
 
                 # Capture key press
                 command = cv2.waitKey(delay=20)
@@ -176,7 +179,7 @@ class CaptureProcess(Process, ABC):
         self._new.value = False
 
         # Convert output byte array to sting
-        _output = bytes(self._output[:])
+        _output = bytes(self._output.get_obj())
         _output = _output.decode('utf-8')
         _output = _output.replace('\x00', '')
 

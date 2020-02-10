@@ -30,15 +30,15 @@ if os.name == 'nt':
     dep_links.append('https://files.pythonhosted.org/packages/3d/14/97bf8e36fb58965415e3c7d8f95cfd6375cb0b5464ae9dbc0a48f7f9ab19/pyzbar-0.1.8-py2.py3-none-win_amd64.whl')
     dep_links.append('https://files.pythonhosted.org/packages/91/8a/4694f3214da07dc488c422c355415a860024126b2714d8f4bf1f73419587/pylibdmtx-0.1.9-py2.py3-none-win_amd64.whl')
 
-    # Adding WindowsDevice extension
-    dev_path = os.path.join('barcap', 'device_list', 'device.cpp')
-    ext_modules.append(
-        Extension(
-            'device',
-            sources=[dev_path],
-            library_dirs=[r'G:\Program Files\Microsoft SDKs\Windows\v6.1\Lib']
-        )
-    )
+    # # Adding WindowsDevice extension (optional)
+    # dev_path = os.path.join('barcap', 'device_list', 'device.cpp')
+    # ext_modules.append(
+    #     Extension(
+    #         'device',
+    #         sources=[dev_path],
+    #         library_dirs=[r'G:\Program Files\Microsoft SDKs\Windows\v6.1\Lib']
+    #     )
+    # )
 
 # And finally setup script
 setup(

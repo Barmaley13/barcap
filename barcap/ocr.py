@@ -22,7 +22,8 @@ from barcap.capture import CaptureProcess
 TESS_CMD = 'tesseract'
 # TESS_CMD = r'"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe"'
 TESS_DATA = r'"C:\Program Files (x86)\Tesseract-OCR\tessdata"'
-TESS_CONF = f'--tessdata-dir {TESS_DATA} --oem 1 --psm 11'
+# TESS_CONF = f'--tessdata-dir {TESS_DATA} --oem 1 --psm 11'
+TESS_CONF = f'--oem 1 --psm 11'
 
 DEFAULT_WINDOW_NAME = 'OCR Capture'
 
@@ -30,8 +31,8 @@ DEFAULT_WINDOW_NAME = 'OCR Capture'
 class OCRCapture(CaptureProcess):
     """ OCR Capture Process based on Process class """
     def __init__(self, **kwargs):
+        # Set default window name (if needed)
         if 'name' not in kwargs or kwargs['name'] is None:
-            # Set default window name
             kwargs['name'] = DEFAULT_WINDOW_NAME
 
         super(OCRCapture, self).__init__(**kwargs)
@@ -48,6 +49,10 @@ class OCRCapture(CaptureProcess):
         if 'tess_conf' in kwargs:
             self.tess_conf = kwargs['tess_conf']
 
+        self.lang = 'eng'
+        if 'lang' in kwargs:
+            self.lang = kwargs['lang']
+
         # Setup pytesseract
         pytesseract.pytesseract.tesseract_cmd = self.tess_cmd
 
@@ -57,7 +62,7 @@ class OCRCapture(CaptureProcess):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # Analyze the frame
-        results = pytesseract.image_to_string(frame, lang='eng', config=self.tess_conf)
+        results = pytesseract.image_to_string(frame, lang=self.lang, config=self.tess_conf)
 
         # Save results of the OCR
         if len(results) > 0:

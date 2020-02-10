@@ -168,6 +168,14 @@ Look closely at `main.py` to get a complete example.
 Finally, `device_list.py` facilitates in selecting right camera. In case
 you might have multiple cameras connected to your computer.
 
+## Device List
+There is a little device utility that can help you discover connected cameras to the
+computer. As of right now the sub package works only on Windows. Also, we decided
+that this is optional addition so it won't be compiled by default.
+
+In order to compile navigate to `setup.py` script and uncomment lines for the
+`WindowsDevice` extension. Reinstall `barcap` using `setup.py` script.
+
 ## Additional Info and Questions
 
 Shoot me email at `kirill at kbelyayev.com` if you have any questions, suggestions, improvements, additions and etc.
