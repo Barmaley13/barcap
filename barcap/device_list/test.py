@@ -2,6 +2,7 @@
 This module demonstrates how to use camera selection routines
 """
 
+import os
 import cv2
 
 import device
@@ -45,7 +46,11 @@ def camera_list(print_list=True):
 
 
 def open_camera(index):
-    cap = cv2.VideoCapture(index)
+    if os.name == 'nt':
+        cap = cv2.VideoCapture(index, cv2.CAP_DSHOW)
+    else:
+        cap = cv2.VideoCapture(index)
+
     return cap
 
 

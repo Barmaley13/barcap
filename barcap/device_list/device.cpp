@@ -78,44 +78,55 @@ PyObject* DisplayDeviceInformation(IEnumMoniker *pEnum)
 		VARIANT var;
 		VariantInit(&var);
 
-		// Get description or friendly name.
+        // Create an empty Python dictionary
+        PyObject* pyDict = PyDict_New();
+
+		// Get description
 		hr = pPropBag->Read(L"Description", &var, 0);
-		if (FAILED(hr))
-		{
-			hr = pPropBag->Read(L"FriendlyName", &var, 0);
-		}
 		if (SUCCEEDED(hr))
 		{
-			// Append a result to Python list
+			// Add result to a Python dictionary
 			char  *pValue = _com_util::ConvertBSTRToString(var.bstrVal);
-			hr = PyList_Append(pyList, Py_BuildValue("s", pValue));
-			delete[] pValue;  
-			if (FAILED(hr)) {
-				printf("Failed to append the object item at the end of list list\n");
-				return pyList;
-			}
+			PyDict_SetItemString(pyDict, "Description", Py_BuildValue("s", pValue));
 
+			delete[] pValue;
 			// printf("%S\n", var.bstrVal);
 			VariantClear(&var);
 		}
 
-		hr = pPropBag->Write(L"FriendlyName", &var);
-
-		// WaveInID applies only to audio capture devices.
-		hr = pPropBag->Read(L"WaveInID", &var, 0);
+		// Get friendly name
+		hr = pPropBag->Read(L"FriendlyName", &var, 0);
 		if (SUCCEEDED(hr))
 		{
-			printf("WaveIn ID: %d\n", var.lVal);
+			// Add result to a Python dictionary
+			char  *pValue = _com_util::ConvertBSTRToString(var.bstrVal);
+			PyDict_SetItemString(pyDict, "FriendlyName", Py_BuildValue("s", pValue));
+
+			delete[] pValue;
+			// printf("%S\n", var.bstrVal);
 			VariantClear(&var);
 		}
 
+		// Get friendly name
 		hr = pPropBag->Read(L"DevicePath", &var, 0);
 		if (SUCCEEDED(hr))
 		{
-			// The device path is not intended for display.
-			// printf("Device path: %S\n", var.bstrVal);
+			// Add result to a Python dictionary
+			char  *pValue = _com_util::ConvertBSTRToString(var.bstrVal);
+			PyDict_SetItemString(pyDict, "DevicePath", Py_BuildValue("s", pValue));
+
+			delete[] pValue;
+			// printf("%S\n", var.bstrVal);
 			VariantClear(&var);
 		}
+
+        // Append resulting Python dictionary to Python list
+        hr = PyList_Append(pyList, pyDict);
+
+        if (FAILED(hr)) {
+            printf("Failed to append the object item at the end of list list\n");
+            return pyList;
+        }
 
 		pPropBag->Release();
 		pMoniker->Release();
@@ -130,6 +141,13 @@ getDeviceList(PyObject *self, PyObject *args)
 	PyObject* pyList = NULL; 
 	
 	HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
+
+	// backup; run it without multithreading.
+	if (FAILED(hr))
+	{
+		hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	}
+
 	if (SUCCEEDED(hr))
 	{
 		IEnumMoniker *pEnum;
@@ -141,6 +159,10 @@ getDeviceList(PyObject *self, PyObject *args)
 			pEnum->Release();
 		}
 		CoUninitialize();
+	}
+	else
+	{
+		PyErr_SetString(PyExc_TypeError, "Could not call CoInitializeEx");
 	}
 
     return pyList;
