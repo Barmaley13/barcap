@@ -1,5 +1,5 @@
 include LICENSE
-include README.mc
+include README.md
 include requirements.txt
 include images/*.*
 include barcap/device_list/screenshot/*.*
